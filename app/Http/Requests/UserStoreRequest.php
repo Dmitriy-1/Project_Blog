@@ -26,7 +26,7 @@ class UserStoreRequest extends FormRequest
         return [
             'name'=>'required|max:255',
             'surname'=>'required|max:255',
-            'email'=>'required|email',//??????????????????
+            'email'=>'required|email',
             'password'=>'min:8|max:50',
             'photo'=>'nullable|image',
             'instagram'=>'nullable',

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PostStoreRequest;
 use App\Models\Post;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -11,31 +13,32 @@ class PostController extends Controller
 {
     public function index()
     {
-        $post = Post::all();
-        //return $post;
-        return response()->json($post, 200);
-
+        $posts = new Post();
+        return $posts->with('user')->simplePaginate(5);
     }
 
-    public function store(PostStoreRequest $request){
+    public function store(PostStoreRequest $request)
+    {
         $createdPost = Post::create($request->validated());
         return response()->json($createdPost, 201);
-
     }
 
-    public function show(Post $post){
-        return response()->json($post, 200);
+    public function show(Post $post)
+    {
+        return response()->json([$post, $post->user], 200); //правильно ли это?
     }
 
-    public function update(PostStoreRequest $request, Post $post){
+    public function update(PostStoreRequest $request, Post $post)
+    {
         $post->update($request->validated());
-        return response()->json($post, 202);
+        return response()->json($post, 201);
 
     }
 
-    public function destroy (Post $post){
+    public function destroy(Post $post)
+    {
         $post->delete();
-        return response()->json(null,200);///???????
+        return response()->json(null, 204);
     }
 
 }

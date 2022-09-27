@@ -17,7 +17,14 @@ class Post extends Model
         'image',
         'dateCreateArticle',
         'timeReadArticle',
-        'amountView'];
+        'amountView',
+        'user_id'
+        ];
 
     protected $primaryKey = 'id';
+
+    public function user(){
+        return $this->belongsTo(User::class,'user_id', 'id');
+    }
 }
+

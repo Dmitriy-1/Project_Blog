@@ -27,10 +27,11 @@ class PostStoreRequest extends FormRequest
             'title'=>'required|unique:posts|max:255',
             'tag'=>'required|max:255',
             'text'=>'required',
-            'image'=>'image',
+            'image'=>'nullable|image',
             'dateCreateArticle'=>'required|date',
             'timeReadArticle'=>'required',
             'amountView'=>'required|integer',
+            'user_id'=>'required|integer'
         ];
     }
 }

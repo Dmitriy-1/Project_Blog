@@ -25,12 +25,12 @@ class UserController extends Controller
 
     public function update(UserStoreRequest $request, User $user){
         $user->update($request->validated());
-        return response()->json($user, 202);
+        return response()->json($user, 201);
 
     }
 
     public function destroy (User $user){
         $user->delete();
-        return response()->json(null,200);///???????
+        return response()->json(null,204);
     }
 }

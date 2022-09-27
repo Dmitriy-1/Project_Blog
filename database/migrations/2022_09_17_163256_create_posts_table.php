@@ -23,6 +23,8 @@ return new class extends Migration
             $table->string('timeReadArticle');
             $table->unsignedInteger('amountView');
             $table->timestamps();
+            $table->unsignedInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

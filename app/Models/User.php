@@ -25,8 +25,7 @@ class User extends Authenticatable
         'photo',
         'instagram',
         'twitter',
-        'description',
-
+        'description'
     ];
 
 
@@ -50,4 +49,9 @@ class User extends Authenticatable
     ];
 
     protected $primaryKey = 'id';
+
+    public function posts(){
+        return $this->hasMany(Post::class, 'user_id','id');
+    }
+
 }
