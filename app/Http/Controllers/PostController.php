@@ -11,10 +11,15 @@ use Illuminate\Http\Response;
 
 class PostController extends Controller
 {
+    protected $post;
+
+    public function __construct(Post $post)
+    {
+        $this->post=$post;
+    }
     public function index()
     {
-        $posts = new Post();
-        return $posts->with('user')->simplePaginate(5);
+        return $this->post->with('user')->simplePaginate(5);
     }
 
     public function store(PostStoreRequest $request)
@@ -23,16 +28,15 @@ class PostController extends Controller
         return response()->json($createdPost, 201);
     }
 
-    public function show(Post $post)
+    public function show(Request $request)
     {
-        return response()->json([$post, $post->user], 200); //правильно ли это?
+        return response()->json($this->post->with('user')->where('id', $request->id)->get(), 200);
     }
 
     public function update(PostStoreRequest $request, Post $post)
     {
         $post->update($request->validated());
         return response()->json($post, 201);
-
     }
 
     public function destroy(Post $post)

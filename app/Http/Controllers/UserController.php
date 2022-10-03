@@ -8,10 +8,17 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+    protected $user;
+
+    public function __construct(User $user)
+    {
+        $this->user=$user;
+    }
+
     public function index()
     {
-        $users = User::all();
-        return response()->json($users, 200);
+
+        return $this->user->with('posts')->simplePaginate(5);
     }
 
     public function store(UserStoreRequest $request){
@@ -19,8 +26,8 @@ class UserController extends Controller
         return response()->json($createdUser, 201);
     }
 
-    public function show(User $user){
-        return response()->json($user, 200);
+    public function show(Request $request){
+        return response()->json($this->user->with('posts')->where('id', $request->id)->get(), 200);
     }
 
     public function update(UserStoreRequest $request, User $user){
