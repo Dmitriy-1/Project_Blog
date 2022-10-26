@@ -2,24 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PostDeleteRequest;
 use App\Http\Requests\PostStoreRequest;
 use App\Models\Post;
-use App\Models\User;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 class PostController extends Controller
 {
     protected $post;
 
+
     public function __construct(Post $post)
     {
-        $this->post=$post;
+        $this->post = $post;
     }
+
     public function index()
     {
-        return $this->post->with('user')->simplePaginate(5);
+        $offset = 0;
+        $limit = 5;
+       return ['posts' => $this->post->with('user')->limit($limit)->offset($offset)->get(), 'meta' => ['total' => $this->post->count(), 'page' => ceil(($offset + 1) / $limit)]];
     }
 
     public function store(PostStoreRequest $request)
@@ -39,9 +41,9 @@ class PostController extends Controller
         return response()->json($post, 201);
     }
 
-    public function destroy(Post $post)
+    public function destroy(PostDeleteRequest $request)
     {
-        $post->delete();
+        $post = Post::where('id', $request->id)->delete();
         return response()->json(null, 204);
     }
 

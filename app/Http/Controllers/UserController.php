@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserDeleteRequest;
 use App\Http\Requests\UserStoreRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -12,32 +13,37 @@ class UserController extends Controller
 
     public function __construct(User $user)
     {
-        $this->user=$user;
+        $this->user = $user;
     }
 
     public function index()
     {
-
-        return $this->user->with('posts')->simplePaginate(5);
+        $offset = 0;
+        $limit = 5;
+        return ['users' => $this->user->with('posts')->limit($limit)->offset($offset)->get(), 'meta' => ['total' => $this->user->count(), 'page' => ceil(($offset + 1) / $limit)]];
     }
 
-    public function store(UserStoreRequest $request){
+    public function store(UserStoreRequest $request)
+    {
         $createdUser = User::create($request->validated());
         return response()->json($createdUser, 201);
     }
 
-    public function show(Request $request){
+    public function show(Request $request)
+    {
         return response()->json($this->user->with('posts')->where('id', $request->id)->get(), 200);
     }
 
-    public function update(UserStoreRequest $request, User $user){
+    public function update(UserStoreRequest $request, User $user)
+    {
         $user->update($request->validated());
         return response()->json($user, 201);
 
     }
 
-    public function destroy (User $user){
-        $user->delete();
-        return response()->json(null,204);
+    public function destroy(UserDeleteRequest $request)
+    {
+        $user = User::where('id', $request->id)->delete();
+        return response()->json(null, 204);
     }
 }
