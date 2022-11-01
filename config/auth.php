@@ -40,6 +40,11 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        //api защита аутентификации
+        'api' => [
+            'driver' => 'passport',
+            'provider' => 'users',
+        ],
     ],
 
     /*
