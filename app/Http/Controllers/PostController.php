@@ -17,10 +17,10 @@ class PostController extends Controller
         $this->post = $post;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $offset = 0;
-        $limit = 5;
+        $offset = $request->offset ?? 0;
+        $limit = $request->limit ?? 5;
        return ['posts' => $this->post->with('user')->limit($limit)->offset($offset)->get(), 'meta' => ['total' => $this->post->count(), 'page' => ceil(($offset + 1) / $limit)]];
     }
 

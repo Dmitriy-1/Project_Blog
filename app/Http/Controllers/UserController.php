@@ -16,10 +16,10 @@ class UserController extends Controller
         $this->user = $user;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $offset = 0;
-        $limit = 5;
+        $offset = $request->offset ?? 0;
+        $limit = $request->limit ?? 5;
         return ['users' => $this->user->with('posts')->limit($limit)->offset($offset)->get(), 'meta' => ['total' => $this->user->count(), 'page' => ceil(($offset + 1) / $limit)]];
     }
 
