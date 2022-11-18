@@ -1,5 +1,5 @@
 FROM phpdockerio/php:8.0-fpm
-WORKDIR "/application"
+WORKDIR "/app"
 
 # Fix debconf warnings upon build
 ARG DEBIAN_FRONTEND=noninteractive

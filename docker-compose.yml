@@ -22,9 +22,9 @@ services:
     webserver:
         image: nginx:alpine
         container_name: ${PROJECT_NAME}-webserver
-        working_dir: /application
+        working_dir: /app
         volumes:
-            - ./application:/application
+            - ./app:/app
             - ./sourcefiles/nginx:/etc/nginx/conf.d
         ports:
             - "80:80"
@@ -35,9 +35,9 @@ services:
     php-fpm:
         build: sourcefiles/php-fpm
         container_name: ${PROJECT_NAME}-php-fpm
-        working_dir: /application
+        working_dir: /app
         volumes:
-            - ./application:/application
+            - ./app:/app
             - ./sourcefiles/php-fpm/php-ini-overrides.ini:/etc/php/8.0/fpm/conf.d/99-overrides.ini
         networks:
             testing_net:
