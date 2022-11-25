@@ -22,7 +22,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::middleware('auth:api')->group(function (){
+    Route::middleware('auth:api')->group(function (){
     Route::post('/posts/create', [PostController::class, 'store']);
     Route::put('/posts/update/{post}', [PostController::class, 'update']);
     Route::delete('/posts/delete/{id}', [PostController::class, 'destroy']);
@@ -41,4 +41,4 @@ Route::get('/users', [UserController::class, 'index']);
 Route::get('/users/{id}', [UserController::class, 'show']);
 
 Route::post('/registration', [AuthController::class, 'register']);
-Route::get('/login', [AuthController::class, 'login']);
+Route::post('/login', [AuthController::class, 'login']);
